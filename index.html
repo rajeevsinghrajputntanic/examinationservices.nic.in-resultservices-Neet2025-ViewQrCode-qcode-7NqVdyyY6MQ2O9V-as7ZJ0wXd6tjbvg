@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View QRCode</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #ffffff;
+            text-align: center;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            line-height: 1.3;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        /* Blue line */
+        .blue-line {
+            background-color: #0a2940;
+            height: 10px;
+            margin-bottom: 40px;
+        }
+
+        /* Result Box */
+        .result-box {
+            display: inline-block;
+            background-color: #fff;
+            border: 1px solid #c0c0c0;
+            width: 420px;
+            text-align: left;
+        }
+        .result-title {
+            background-color: #0a2940;
+            color: white;
+            padding: 10px 15px;
+            font-size: 18px;
+        }
+        .result-title::before {
+            content: "🔒 ";
+        }
+        .content {
+            padding: 20px;
+        }
+        .captcha-label {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .captcha-label span {
+            color: green;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 286px;
+            height: 46px;
+            font-size: 16px;
+            border: 1px solid #999;
+            padding: 5px 10px;
+            margin-bottom: 12px;
+        }
+        .captcha-box {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        .captcha-img {
+            width: 140px;
+            height: 46px;
+            background-color: #0059ff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+        .refresh-icon {
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+        }
+        .submit-btn {
+            background-color: #0d7540;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #0b5e34;
+        }
+        .error-msg {
+            color: red;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0a2940;
+            color: white;
+            padding: 20px 0;
+            margin-top: 50px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <img src="india_emblem.png" width="193" height="37" alt="India Emblem">
+        <div class="title">
+            National Eligibility Cum Entrance Test (UG) - 2025<br>
+            Score Card
+        </div>
+        <img src="neet_logo.png" width="193" height="79" alt="NEET Logo">
+    </div>
+
+    <div class="blue-line"></div>
+
+    <!-- Result Box -->
+    <div class="result-box">
+        <div class="result-title">View Result</div>
+        <div class="content">
+            <div class="captcha-label">Enter CAPTCHA (<span>case sensitive</span>) :</div>
+            <input type="text" id="captcha" placeholder="Enter Captcha">
+            <div class="captcha-box">
+                <div class="captcha-img" id="showCaptcha"></div>
+                <img src="refresh.jpg" class="refresh-icon" onclick="generateCaptcha()" alt="Refresh">
+            </div>
+            <button class="submit-btn" onclick="checkCaptcha()">SUBMIT</button>
+            <div id="error" class="error-msg"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        This site is designed and hosted by NIC PEP Division. The contents are provided by NTA.<br>
+        For any further information, please contact NTA.
+    </div>
+
+    <script>
+        let captcha = "";
+        function generateCaptcha() {
+            captcha = Math.random().toString(36).substring(2,8).toUpperCase();
+            document.getElementById("showCaptcha").innerText = captcha;
+            document.getElementById("error").innerText = "";
+            document.getElementById("captcha").value = "";
+        }
+        function checkCaptcha() {
+            let input = document.getElementById("captcha").value.trim().toUpperCase();
+            if(input === captcha){
+                window.open("result.pdf", "_blank");
+            } else {
+                document.getElementById("error").innerText = "Invalid Captcha!";
+            }
+        }
+        generateCaptcha();
+    </script>
+
+</body>
+</html>
